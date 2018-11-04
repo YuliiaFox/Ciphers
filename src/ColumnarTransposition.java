@@ -2,20 +2,9 @@ import java.util.Arrays;
 
 final class ColumnarTransposition {
     static String encrypt(String message, String key) {
-        message = message.replaceAll("\\s+", "");
-        int rows = (int) Math.ceil(message.length() / (key.length() + 0.0));
-        int columns = key.length();
-        char[][] table = new char[columns][rows];
-
-        for (int i = 0, k = 0; i < rows; i++) { //save message to 2d array(table)
-            for (int j = 0; j < columns; j++, k++) {
-                if (k < message.length())
-                table[j][i] = message.charAt(k);
-            }
-        }
         int[] order = calculateColumnOrder(key);
-
-       int[][] result = new int[columns][rows];
+        char[][] table = writeMessageToTable(message,key);
+        int[][] result = new int[][];
         for (int i = 0; i < columns; i++) {
             //result[i][] = message;
         }
@@ -39,5 +28,28 @@ final class ColumnarTransposition {
             }
         }
         return order;
+    }
+
+    private static char[][] writeMessageToTable(String message, String key) {
+        message = message.replaceAll("\\s+", "");
+        int rows = calculateRows(message, key);
+        int columns = calculateColumns(key);
+        char[][] table = new char[columns][rows];
+
+        for (int i = 0, k = 0; i < rows; i++) { //save message to 2d array(table)
+            for (int j = 0; j < columns; j++, k++) {
+                if (k < message.length())
+                    table[j][i] = message.charAt(k);
+            }
+        }
+        return table;
+    }
+
+    private static int calculateColumns(String key) {
+        return key.length();
+    }
+
+    private static int calculateRows(String message, String key) {
+        return (int) Math.ceil(message.length() / (key.length() + 0.0));
     }
 }
