@@ -42,11 +42,17 @@ final class ColumnarTransposition {
                     l++;
                 }
             }
-            for (int l = k, z = 0; z< calculateRows(message,key); l++, z++) {
+            for (int l = k, z = 0; z< calculateRows(tmp,key); l++, z++) {
                 table[ i][z] = messageChars[l];
             }
         }
-        return new String();
+        String result="";
+        for (int i = 0; i < calculateRows(tmp, key) ; i++) {
+            for (int j = 0; j < calculateColumns(key); j++) {
+                result = result.concat(String.valueOf(table[j][i]));
+            }
+        }
+        return result;
     }
 
     private static int[] calculateColumnOrder(String key) {
